@@ -2,6 +2,7 @@ Front :
 ```
 cd front
 npm i
+npm run prod
 npm start
 ```
 
