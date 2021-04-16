@@ -92,13 +92,13 @@ async function getAnnoncesByVille (req, res) {
 
 async function putAnnonceById (req, res) {
   const { id } = req.params;
-  let annonce = await getAnnonceById(id);
+  let annonce = await getAnnonceById(req,res);
 
   if ( !annonce.data ) {
-    return await createAnnonce(req.body);
+    return await createAnnonce(req,res);
   }
 
-  return await updateAnnonceById(id, req.body);
+  return await updateAnnonceById(req,res);
 }
 
 module.exports = {
