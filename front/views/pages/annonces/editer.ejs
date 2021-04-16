@@ -1,0 +1,89 @@
+<main>
+    <h1 class="mb-10">Editer une annonce</h1>
+    <form name="ajout-annonce" onsubmit="onSubmitForm(event)" data-id="<%= annonce._id %>">
+
+        <div>
+            <label>
+                <span>Titre</span>
+                <input type="text" name="titre" value="<%= annonce.titre %>">
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <span>Description</span>
+                <textarea name="description"><%= annonce.description %></textarea>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <span>Adresse</span>
+                <input type="text" name="adresse" value="<%= annonce.adresse %>">
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <span>Code postal</span>
+                <input type="number" name="code_postal" min="0" value="<%= annonce.code_postal %>">
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <span>Ville</span>
+                <input type="text" name="ville" value="<%= annonce.ville %>">
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <span>Prix</span>
+                <input type="number" name="prix" min="1" value="<%= annonce.prix %>">
+            </label>
+        </div>
+
+        <div>
+            <button type="submit">
+                Valider
+            </button>
+        </div>
+
+    </form>
+</main>
+
+<script>
+  function onSubmitForm (event) {
+    event.preventDefault()
+
+    const { target } = event
+
+    const formData = new FormData(target)
+    const values = {}
+    for ( let [ key, value ] of formData ) {
+      values[key] = value
+    }
+
+    const {id} = target.dataset
+
+    fetch('http://localhost:3000/api/v1/annonces/' + id, {
+      method: 'PUT',
+      body: JSON.stringify(values)
+    })
+        .then(response => response.json())
+        .then(response => {
+          const { message, ok } = response
+
+          if ( !ok ) {
+            alert(message)
+            return
+          }
+
+          window.location.href = '/annonces'
+
+        })
+
+    return false
+  }
+</script>
