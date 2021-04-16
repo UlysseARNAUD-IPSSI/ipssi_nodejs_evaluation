@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body>
+
+<header>
+    <%- include('../partials/header'); %>
+</header>
+
+<main>
+    <h1 class="mb-10">Bikes</h1>
+    <aside class="mb-10">
+        <a href="/vehicles/add">Add a vehicle</a>
+    </aside>
+    <table>
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Marque</th>
+            <th>Année</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for(let cursor = 0; cursor < vehicles.length; cursor++) { %>
+            <tr>
+                <th><%= vehicles[cursor].id %></th>
+                <td><%= vehicles[cursor].brand %></td>
+                <td><%= vehicles[cursor].year %></td>
+                <td>
+                    <div class="flex place-content-center place-items-center gap-3">
+                        <button class="transform hover:text-blue-500" onclick="seeBike(event)">See</button>
+                        <button class="transform hover:text-blue-500" onclick="removeBike(event)">Remove</button>
+                    </div>
+                </td>
+            </tr>
+        <% } %>
+        </tbody>
+    </table>
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+
+<script>
+
+    function seeBike(event) {
+        event.preventDefault()
+
+        const {target} = event
+        const row = target.closest('tr')
+        const cellId = row.querySelector('th')
+        const id = cellId.innerText.trim()
+
+        const url = `/vehicles/bike/${id}`
+        window.location.href = url
+
+        return false;
+    }
+
+    function removeBike(event) {
+        event.preventDefault()
+
+        const {target} = event
+        const row = target.closest('tr')
+        const cellId = row.querySelector('th')
+        const id = cellId.innerText.trim()
+
+        const url = `/api/v1/vehicles/bike/${id}`
+        fetch(url, {
+            method: 'DELETE'
+        }).then(() => {
+            window.location.reload()
+        }).catch(() => {
+        })
+
+        return false;
+    }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head'); %>
+</head>
+<body>
+
+<header>
+    <%- include('../partials/header'); %>
+</header>
+
+<main>
+    <h1 class="mb-10">Add vehicle</h1>
+    <form name="add-vehicle" onsubmit="saveVehicleOnSubmit(event)">
+
+        <div>
+            <span>Type</span>
+            <label>
+                <input type="radio" name="type" value="bike" min="1" onclick="onChangeType(event)" checked required><span>Bike</span>
+            </label>
+            <label>
+                <input type="radio" name="type" value="car" min="1" onclick="onChangeType(event)" required><span>Car</span>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <input type="number" name="id" min="1" required><span>ID</span>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <input type="text" name="brand" required><span>Brand</span>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <input type="text" name="model" required><span>Model</span>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <input type="number" name="year" required><span>Year</span>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <input type="number" name="power" required><span>Power</span>
+            </label>
+        </div>
+
+        <div class="hidden">
+            <label>
+                <input type="number" name="door_number"><span>Number of doors</span>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <input type="number" name="price" required>
+                <span>Price</span>
+            </label>
+        </div>
+
+        <div>
+            <span>Reserved ?</span>
+            <label>
+                <input type="radio" name="reserved" value="true" required checked>
+                <span>True</span>
+            </label>
+            <label>
+                <input type="radio" name="reserved" value="false" required>
+                <span>False</span>
+            </label>
+        </div>
+
+        <div>
+            <button type="submit">
+                Validate
+            </button>
+        </div>
+
+    </form>
+</main>
+
+<footer>
+    <%- include('../partials/footer'); %>
+</footer>
+
+<script>
+    function saveVehicleOnSubmit(event) {
+        event.preventDefault()
+
+        const {target} = event
+
+        const formData = new FormData(target)
+        let entries = {}
+        for (let [key, value] of formData.entries()) {
+            entries[key] = value
+        }
+
+        const {type, id} = entries
+
+        delete entries.type
+
+        const url = `/api/v1/vehicles/${type}/${id}`
+
+        fetch(url, {
+            method: 'PUT',
+            body: new URLSearchParams(entries)
+        }).then(() => {
+            window.location.href = `/vehicles/${type}s`
+        }).catch(reason => {
+            alert('Something wrong went while creating vehicle')
+            console.error(reason)
+        })
+
+        return false
+    }
+
+    function onChangeType(event) {
+        // event.preventDefault()
+
+        const {target} = event;
+
+        const {value} = target
+
+        const functions = {
+            bike: () => {
+                const form = document.forms.namedItem('add-vehicle')
+                const doorNumberDiv = form.querySelector('div:nth-child(7)')
+                doorNumberDiv.classList.add('hidden')
+                const input = doorNumberDiv.querySelector('input')
+                input.required = false
+            },
+            car: () => {
+                const form = document.forms.namedItem('add-vehicle')
+                const doorNumberDiv = form.querySelector('div:nth-child(7)')
+                doorNumberDiv.classList.remove('hidden')
+                const input = doorNumberDiv.querySelector('input')
+                input.required = true
+            }
+        }
+        const callable = functions[value]
+
+        callable()
+    }
+</script>
+
+</body>
+</html>
