@@ -1,10 +1,17 @@
 {
-  "name": "ipssi_nodejs_evaluation_back",
+  "name": "ipssi_nodejs_evaluation_front",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon app-back.js",
+    "start": "nodemon app-front.js",
+    "dev": "npm run development",
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "prod": "npm run production",
+    "production": "mix --production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
