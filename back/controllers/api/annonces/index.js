@@ -32,6 +32,7 @@ async function getAnnonceById (req, res) {
 
 async function createAnnonce (req, res) {
   const { body: values } = req;
+  console.log({values})
   const annonce = new Annonce(values);
   await annonce.save();
   res.send({

@@ -23,11 +23,11 @@ function startApp() {
     app.use('/api/v1', require('./routes/api'));
 
     app.listen(port, () => {
-        // const postmanUrl = "https://documenter.getpostman.com/view/2652537/TzJoDfZ1"
+        const postmanUrl = "https://documenter.getpostman.com/view/2652537/TzJrCf6F"
 
-        console.log(`Example app listening at http://localhost:${port}`)
+        console.log(`App listening at http://localhost:${port}`)
 
-        // console.log(`Documentation postman disponible ici : ${postmanUrl}`)
+        console.log(`Documentation postman disponible ici : ${postmanUrl}`)
     })
 }
 
@@ -53,8 +53,4 @@ function connectDatabase(isMongoUsed = true) {
     }).catch(error => {
         console.error('Error while connecting database', error)
     })
-}
-
-function renderPage(page) {
-    res.render('views/partials/page', {page})
 }
